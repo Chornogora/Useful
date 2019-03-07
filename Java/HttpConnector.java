@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 //A class to send GET/POST requests to the server and get responses
@@ -46,8 +47,11 @@ public class HttpConnector {
             try (OutputStream stream = connection.getOutputStream()) {
                 StringBuilder builder = new StringBuilder();
 
-                for (String str : params)
+                for (String str : params){
+                    str = convertParam(str);
                     builder.append(str + "&");
+                }
+
                 byte[] bytes = builder.toString().getBytes();
 
                 stream.write(bytes);
@@ -70,6 +74,7 @@ public class HttpConnector {
         try {
             if (params != null) {
                 String StringAddress = Arrays.asList(params).stream().reduce(address.toString() + "?", (acc, param) -> {
+                    param = convertParam(param);
                     return acc + param + "&";
                 });
                 StringAddress = StringAddress.substring(0, StringAddress.length() - 1);
@@ -99,7 +104,7 @@ public class HttpConnector {
     private String getResponse(HttpURLConnection connection){
         //Getting Response Message
         try {
-            InputStream stream = connection.getInputStream();
+            InputStreamReader stream = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
             Scanner sc = new Scanner(stream);
             StringBuilder builder = new StringBuilder();
 
@@ -113,5 +118,15 @@ public class HttpConnector {
             System.out.println("IOException during response getting");
             return "";
         }
+    }
+
+    private static String convertParam(String param){
+        String[] arr = param.split("=");
+        try {
+            return arr[0] + "=" + URLEncoder.encode(arr[1], StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
