@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <iframe id="frame" src="TestFrame.html"></iframe>
+    <script>
+        let elem = document.getElementById("frame");
+        elem.onload=()=> {
+            elem.contentWindow.addEventListener('myEvent', (event) => {
+                alert(event.detail.name)
+            }, false);
+        }
+    </script>
+</body>
+</html>

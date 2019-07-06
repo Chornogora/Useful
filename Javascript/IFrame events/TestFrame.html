@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script>
+            function sendEvent(){
+                let event = new CustomEvent('myEvent', {
+                    bubbles: true,
+                    cancelable: true,
+                    detail: {name: "Anthony"}
+                });
+                this.dispatchEvent(event);
+            }
+        </script>
+        <button onclick="sendEvent()"></button>
+    </body>
+</html>

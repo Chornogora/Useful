@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<title>
+			Slider
+		</title>
+		<style>
+			#img1{
+				width: 200px;
+				height: 60px;
+				position: absolute;
+				left: 400px;
+			}
+			
+			#img2{
+				width: 200px;
+				height: 60px;
+				position: absolute;
+				left: 600px;
+			}
+			
+			#img3{
+				width: 200px;
+				height: 60px;
+				position: absolute;
+				left: 800px;
+			}
+			
+			#div1{
+				width: 200px;
+				height: 60px;
+				position: absolute;
+				left: 400px;
+				z-index: 2;	
+				background-color: aqua;
+				text-align: center;
+			}
+			
+			#div2{
+				width: 200px;
+				height: 60px;
+				position: absolute;
+				left: 800px;
+				z-index: 2;
+				background-color: aqua;			
+				text-align: center;				
+			}
+		</style>
+	</head>
+	<body>
+		<img id="img1" />
+		<img id="img2" />
+		<img id="img3" />
+
+		<div id="div1">
+			Тоха лучший!
+		</div>
+		<div id="div2">
+			Тоха лучший!
+		</div>
+		<script>
+		
+			function changePlaces(images){
+				const a = -0.7;
+				let isDone = false;
+
+				let interval = setTimeout(function move(images, v0){
+					let x0 = images[1].offsetLeft;
+					let x = x0 + a + v0;
+					if(x < images[0].offsetLeft){
+						images[1].style.left = images[0].offsetLeft;
+						images[2].style.left = images[1].offsetLeft + images[1].offsetWidth;
+						images[0].style.left = images[2].offsetLeft + images[2].offsetWidth;
+						
+						let temp = images[0];
+						images[0] = images[1];
+						images[1] = images[2];
+						images[2] = temp;
+						
+						isDone = true;
+						return;
+					}else{
+						images[1].style.left = parseInt(x, 10);
+						
+						x0 = images[2].offsetLeft;
+						x = x0 + a + v0;
+						
+						images[2].style.left = parseInt(x, 10);
+						let v = v0 + a;
+						setTimeout(move, 40, images, v0+a);
+					}
+				}, 40, images, 0);
+				
+			}
+		
+			let array = ["img1.jpg", "img2.jpg", "img3.jpg"];
+			
+			let images = [];
+			
+			images[0] = document.getElementById("img1");
+			images[1] = document.getElementById("img2");
+			images[2] = document.getElementById("img3");
+			
+			for(let i = 0; i < array.length; ++i){
+				images[i].src = array[i];
+			}
+			
+			setInterval(changePlaces, 3000, images);
+		</script>
+	</body>
+
+</html>

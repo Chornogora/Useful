@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Test</title>
+		<script src="Audio.js"></script>
+	</head>
+	<body>
+		<label>
+			Enter address here
+			<input type="text" id="path"/>
+		</label>
+		<br/>
+		<input type="submit" value = "Play!" onclick="setAudio(document.getElementById('path').value)"/>
+		<br/>
+		<input type="submit" value = "Pause" onclick="pauseAudio()"/>
+		<br/>
+		<input type="submit" value = "Resume" onclick="resumeAudio()"/>
+	</body>
+</html>
